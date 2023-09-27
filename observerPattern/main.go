@@ -1,6 +1,6 @@
 package main
 
-// interfaces -------------------------------
+// interfaces ========================================
 
 type Observer interface {
 	update()
@@ -11,19 +11,21 @@ type Observable interface {
 	notifyAll()
 }
 
-// structs ----------------------------------
+// structs and methods ========================================
+
+// Observer implementation ---------------
 
 type YoutubeUser struct {
 }
 
-type YoutubeChannel struct {
-	observers []Observer
-}
-
-// methods -----------------------------------
-
 func (y YoutubeUser) update() {
 	println("hooray, a new video has been released")
+}
+
+// Observable implementation ---------------
+
+type YoutubeChannel struct {
+	observers []Observer
 }
 
 func (y *YoutubeChannel) register(observer Observer) {
@@ -35,6 +37,8 @@ func (y YoutubeChannel) notifyAll() {
 		observer.update()
 	}
 }
+
+// Client ==================================================
 
 func main() {
 	toples := YoutubeChannel{observers: make([]Observer, 0, 3)}

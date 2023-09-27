@@ -2,13 +2,13 @@ package main
 
 import "fmt"
 
-// Component interface ---------------------
+// Component interface ========================================
 
 type Player interface {
 	Play() string
 }
 
-// Concrete component -----------------
+// Concrete component ========================================
 
 type NewPlayer struct {
 }
@@ -17,7 +17,9 @@ func (n NewPlayer) Play() string {
 	return "enjoying the game."
 }
 
-// Concrete decorators
+// Concrete decorators ========================================
+
+// Decorator Tank --------------------
 
 type Tank struct {
 	Player Player
@@ -27,6 +29,8 @@ func (t Tank) Play() string {
 	return t.Player.Play() + " Keeping the boss`s agro."
 }
 
+// Decorator DamageDealer
+
 type DamageDealer struct {
 	Player Player
 }
@@ -34,6 +38,8 @@ type DamageDealer struct {
 func (d DamageDealer) Play() string {
 	return d.Player.Play() + " Dealing high damage."
 }
+
+// Decorator Healer
 
 type Healer struct {
 	Player Player
@@ -43,7 +49,7 @@ func (h Healer) Play() string {
 	return h.Player.Play() + " Healing teammates"
 }
 
-// client ----------------------------
+// client ========================================
 
 func main() {
 

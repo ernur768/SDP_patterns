@@ -46,13 +46,15 @@ func (b Body_armor) defend(damage float32) float32 {
 	}
 }
 
-// ========================================
+// Context ========================================
 
 type Player struct {
 	Weapon1 Weapon
 	Weapon2 Weapon
 	Armor   Armor
 }
+
+// Client ==================================================
 
 func main() {
 
