@@ -2,52 +2,39 @@ package main
 
 import "fmt"
 
-// Interfaces ========================
-
-type LeftShoe interface {
-	IsOnLeftLeg() bool
+type Button interface {
+	Paint()
 }
 
-type RightShoe interface {
-	IsOnRightLeg() bool
+type Checkbox interface {
+	Paint()
 }
 
-type ShoeFactory interface {
-	createLeftShoe() LeftShoe
-	createRightShoe() RightShoe
+type GUIFactory interface {
+	CreateButton() Button
+	CreateCheckbox() Checkbox
 }
 
-// Concrete products =============================
+type WinButton struct{}
 
-type ClownLeftShoe struct{}
-
-func (c ClownLeftShoe) IsOnLeftLeg() bool {
-	return true
+func (wb WinButton) Paint() {
+	fmt.Println("Windows Button")
 }
 
-type ClownRightShoe struct{}
+type WinCheckbox struct{}
 
-func (c ClownRightShoe) IsOnRightLeg() bool {
-	return true
+func (wc WinCheckbox) Paint() {
+	fmt.Println("Windows Checkbox")
 }
 
-// Concrete factory
+type WinFactory struct{}
 
-type ClownShoeFactory struct{}
+func (w WinFactory) CreateButton() Button { return WinButton{} }
 
-func (c ClownShoeFactory) createLeftShoe() LeftShoe {
-	return &ClownLeftShoe{}
-}
-
-func (c ClownShoeFactory) createRightShoe() RightShoe {
-	return &ClownRightShoe{}
-}
-
-// Client ==================================
+func (w WinFactory) CreateCheckbox() Checkbox { return WinCheckbox{} }
 
 func main() {
-	factory := ClownShoeFactory{}
-	LeftShoe := factory.createLeftShoe()
-	RightShoe := factory.createRightShoe()
-	fmt.Println(LeftShoe, RightShoe)
+	factory := WinFactory{}
+	factory.CreateButton().Paint()
+	factory.CreateCheckbox().Paint()
 }

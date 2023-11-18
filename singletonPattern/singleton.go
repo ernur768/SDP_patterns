@@ -5,20 +5,20 @@ import (
 	"sync"
 )
 
-var instanse *calculator
+var instance *calculator
 var mu sync.Mutex
 
 func getCalculator() *calculator {
-	if instanse == nil {
+	if instance == nil {
 		mu.Lock()
-		if instanse != nil {
-			return instanse
+		if instance != nil {
+			return instance
 		}
-		instanse = &calculator{}
+		instance = &calculator{}
 		mu.Unlock()
 	}
 
-	return instanse
+	return instance
 }
 
 type calculator struct{}

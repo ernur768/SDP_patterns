@@ -2,69 +2,47 @@ package main
 
 import "fmt"
 
-// interface ==============================
-
 type Command interface {
 	execute()
 }
 
-type GameObject interface {
-	goforward()
+type Player struct{}
+
+func (p Player) goForward() {
+	fmt.Println("going forward")
 }
 
-// concrete command =========================
-
-type GoforwardCommand struct {
-	gameObject GameObject
+type GoForwardCommand struct {
+	Player
 }
 
-func (g GoforwardCommand) execute()  {   
-	g.gameObject.goforward()
+func (gfc GoForwardCommand) execute() {
+	gfc.Player.goForward()
 }
-
-// invokers ==================================
 
 type KeyboardButton struct {
 	command Command
 }
 
-func (k KeyboardButton) press()  {   
-	k.command.execute()
+func (kb KeyboardButton) press() {
+	kb.command.execute()
 }
 
 type GamepadButton struct {
 	command Command
 }
 
-func (g GamepadButton) press()  {   
-	g.command.execute()
+func (gb GamepadButton) press() {
+	gb.command.execute()
 }
-
-// receiver ======================================
-
-type Player struct {}
-
-func (p Player) goforward()  {   
-	fmt.Println("going forward")
-}
-
-// client ========================================
 
 func main() {
-	player := &Player{}
-	
-	command := GoforwardCommand{
-		gameObject: player,
-	}
-	
-	gamepadButton := GamepadButton{
-		command: command,
-	}
-	
-	keyboardButton := KeyboardButton{
-		command: command,
-	}
-	
+	player := Player{}
+	command := GoForwardCommand{player}
+
+	gamepadButton := GamepadButton{command: command}
+	keyboardButton := KeyboardButton{command: command}
+
 	gamepadButton.press()
 	keyboardButton.press()
 }

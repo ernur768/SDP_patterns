@@ -1,55 +1,41 @@
 package main
 
-// interfaces ========================================
-
 type Observer interface {
-	update()
+	Update()
 }
 
 type Observable interface {
-	register(Observer)
-	notifyAll()
+	Register(Observer)
+	NotifyAll()
 }
 
-// structs and methods ========================================
+type Follower struct{}
 
-// Observer implementation ---------------
+func (f *Follower) Update() {}
 
-type YoutubeUser struct {
-}
-
-func (y YoutubeUser) update() {
-	println("hooray, a new video has been released")
-}
-
-// Observable implementation ---------------
-
-type YoutubeChannel struct {
+type Channel struct {
 	observers []Observer
 }
 
-func (y *YoutubeChannel) register(observer Observer) {
-	y.observers = append(y.observers, observer)
+func (c *Channel) PostNews() {
+	// post news
+	c.NotifyAll()
 }
 
-func (y YoutubeChannel) notifyAll() {
-	for _, observer := range y.observers {
-		observer.update()
+func (c *Channel) Register(observer Observer) {
+	c.observers = append(c.observers, observer)
+}
+
+func (c *Channel) NotifyAll() {
+	for _, observer := range c.observers {
+		observer.Update()
 	}
 }
 
-// Client ==================================================
-
 func main() {
-	toples := YoutubeChannel{observers: make([]Observer, 0, 3)}
+	groupChannel := Channel{}
+	groupChannel.Register(&Follower{})
+	groupChannel.Register(&Follower{})
 
-	user_nt9e := YoutubeUser{}
-	user_ngf9 := YoutubeUser{}
-	user_h56j := YoutubeUser{}
-
-	toples.register(user_nt9e)
-	toples.register(user_ngf9)
-	toples.register(user_h56j)
-
-	toples.notifyAll()
+	groupChannel.PostNews()
 }

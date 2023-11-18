@@ -2,70 +2,40 @@ package main
 
 import "fmt"
 
-// interfaces ========================================
 type Weapon interface {
-	deal_damage() float32
+	DealDamage() float32
 }
 
-type Armor interface {
-	defend(float32) float32
-}
-
-// structs and methods ========================================
-
-// Weapon implementation ---------------
-
-type Knife struct {
+type Sword struct {
 	damage float32
 }
 
-func (k Knife) deal_damage() float32 {
-	return k.damage
+func (s Sword) DealDamage() float32 {
+	return s.damage
 }
 
-type Grenade_launcher struct {
+type GrenadeLauncher struct {
 	damage float32
 }
 
-func (g Grenade_launcher) deal_damage() float32 {
+func (g GrenadeLauncher) DealDamage() float32 {
 	return g.damage
 }
 
-// Armor implementation -------------
-
-type Body_armor struct {
-	endurance float32
-}
-
-func (b Body_armor) defend(damage float32) float32 {
-	finalDamage := damage - b.endurance
-	if finalDamage <= 0 {
-		return 1.0
-	} else {
-		return finalDamage
-	}
-}
-
-// Context ========================================
-
 type Player struct {
-	Weapon1 Weapon
-	Weapon2 Weapon
-	Armor   Armor
+	weapon Weapon
 }
 
-// Client ==================================================
+func (p *Player) SetWeapon(weapon Weapon) {
+	p.weapon = weapon
+}
 
 func main() {
+	nagibator228 := Player{}
 
-	AGS_40_Balkan := Grenade_launcher{damage: 999.0}
-	katana := Knife{damage: 150.0}
-	kevlar_armor := Body_armor{endurance: 60.0}
+	nagibator228.SetWeapon(GrenadeLauncher{999.0})
+	fmt.Println(nagibator228)
 
-	nagibator228 := Player{
-		Weapon1: AGS_40_Balkan,
-		Weapon2: katana,
-		Armor:   kevlar_armor}
-
+	nagibator228.SetWeapon(Sword{damage: 150.0})
 	fmt.Println(nagibator228)
 }
